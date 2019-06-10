@@ -24,7 +24,7 @@ public class JpaTransactionConfigurer implements ApplicationContextAware {
 			+ " && !@annotation(org.springframework.transaction.annotation.Transactional)"
 			+ " && !@within(javax.transaction.Transactional)"
 			+ " && !@annotation(javax.transaction.Transactional)")
-	Object wrapTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object interceptTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
 		PlatformTransactionManager txManager = applicationContext.getBean(PlatformTransactionManager.class);
 		DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED);
 		transactionDefinition.setReadOnly(true);
