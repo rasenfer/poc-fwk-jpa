@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
@@ -14,6 +15,7 @@ import lombok.Setter;
 
 @Configuration
 @Aspect
+@Order(Integer.MAX_VALUE - 1)
 public class JpaTransactionConfigurer implements ApplicationContextAware {
 
 	@Setter
