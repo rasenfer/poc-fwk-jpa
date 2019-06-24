@@ -18,6 +18,6 @@ public class PojoEntityServiceNoTransactional {
 	private PojoEntityRepository pojoEntityRepository;
 
 	public PojoEntity getEntity(Integer id) {
-		return pojoEntityRepository.findOne(id);
+		return pojoEntityRepository.getOne(id);
 	}
 }

@@ -18,13 +18,13 @@ public class PojoEntityServiceImpl implements PojoEntityService {
 
 	@Override
 	public PojoEntity getEntity(Integer id) {
-		return pojoEntityRepository.findOne(id);
+		return pojoEntityRepository.getOne(id);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public PojoEntity testGetEntityNoTransaction(Integer id) {
-		return pojoEntityRepository.findOne(id);
+		return pojoEntityRepository.getOne(id);
 	}
 
 	@Override

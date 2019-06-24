@@ -15,6 +15,6 @@ public class PojoEntityComponent {
 	private PojoEntityRepository pojoEntityRepository;
 
 	public PojoEntity getEntity(Integer id) {
-		return pojoEntityRepository.findOne(id);
+		return pojoEntityRepository.getOne(id);
 	}
 }
