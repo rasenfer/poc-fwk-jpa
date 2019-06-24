@@ -3,6 +3,7 @@ package poc.fwk.jpa.configurers;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +22,24 @@ public class JpaTransactionConfigurer implements ApplicationContextAware {
 	@Setter
 	private ApplicationContext applicationContext;
 
-	@Around("@within(org.springframework.stereotype.Service)"
-			+ " && !@within(org.springframework.transaction.annotation.Transactional)"
-			+ " && !@annotation(org.springframework.transaction.annotation.Transactional)"
-			+ " && !@within(javax.transaction.Transactional)"
-			+ " && !@annotation(javax.transaction.Transactional)")
+	@Pointcut("@within(org.springframework.stereotype.Service)")
+	public void service() {
+		// Method is empty as this is just a Pointcut, the implementations are in the advices.
+	}
+
+	@Pointcut("@within(org.springframework.transaction.annotation.Transactional)"
+			+ " || @annotation(org.springframework.transaction.annotation.Transactional)"
+			+ " || @within(javax.transaction.Transactional)"
+			+ " || @annotation(javax.transaction.Transactional)")
+	public void transactional() {
+		// Method is empty as this is just a Pointcut, the implementations are in the advices.
+	}
+
+	@Around("service() && !transactional()")
 	public Object interceptTransaction(ProceedingJoinPoint joinPoint) throws Throwable {
 		PlatformTransactionManager txManager = applicationContext.getBean(PlatformTransactionManager.class);
 		DefaultTransactionDefinition transactionDefinition = new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED);
+		transactionDefinition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
 		transactionDefinition.setReadOnly(true);
 		txManager.getTransaction(transactionDefinition);
 		return joinPoint.proceed();
