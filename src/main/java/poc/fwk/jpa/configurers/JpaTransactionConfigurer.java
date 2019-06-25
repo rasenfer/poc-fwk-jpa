@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Configuration
 @Aspect
 @Order(Integer.MAX_VALUE)
+@ConditionalOnSingleCandidate(JpaTransactionConfigurer.class)
 public class JpaTransactionConfigurer implements ApplicationContextAware {
 
 	@Setter
